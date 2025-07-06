@@ -1,0 +1,31 @@
+! กำหนด IP WAN (รับจากตู้)
+interface g0/1
+ description WAN
+ ip address dhcp
+ no shutdown
+
+! กำหนด IP LAN
+interface g0/0
+ description LAN
+ ip address 192.168.10.1 255.255.255.0
+ no shutdown
+
+! DHCP Server
+ip dhcp excluded-address 192.168.10.1 192.168.10.10
+ip dhcp pool LAN_POOL
+ network 192.168.10.0 255.255.255.0
+ default-router 192.168.10.1
+ dns-server 8.8.8.8
+
+! NAT (แปลง IP ออกเน็ต)
+access-list 1 permit 192.168.10.0 0.0.0.255
+ip nat inside source list 1 interface g0/1 overload
+
+! ระบุ inside / outside NAT
+interface g0/0
+ ip nat inside
+interface g0/1
+ ip nat outside
+
+
+ส่งข้อความถึง #mut
