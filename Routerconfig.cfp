@@ -27,5 +27,3 @@ interface g0/0
 interface g0/1
  ip nat outside
 
-
-ส่งข้อความถึง #mut
