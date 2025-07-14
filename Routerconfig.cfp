@@ -2,11 +2,13 @@
 interface g0/1
  description WAN
  ip address dhcp
+ ip nat outside
  no shutdown
 
 ! กำหนด IP LAN
 interface g0/0
  description LAN
+ ip nat inside
  ip address 192.168.10.1 255.255.255.0
  no shutdown
 
@@ -20,10 +22,4 @@ ip dhcp pool LAN_POOL
 ! NAT (แปลง IP ออกเน็ต)
 access-list 1 permit 192.168.10.0 0.0.0.255
 ip nat inside source list 1 interface g0/1 overload
-
-! ระบุ inside / outside NAT
-interface g0/0
- ip nat inside
-interface g0/1
- ip nat outside
 
